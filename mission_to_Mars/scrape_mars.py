@@ -20,21 +20,18 @@ def scrape():
     html = browser.html
     news_soup = BeautifulSoup(html, 'html.parser')
     # Retrieve the latest news title and paragraph
-    news_title = "My Culture, My Voice"
-    news_p = "In honor of Hispanic Heritage Month, Christina Hernandez, an instrument engineer on the Mars 2020 mission, talks about her childhood and journey to NASA."
+    news_title = news_soup.find_all('div', class_='content_title')[0].text
+    news_p = news_soup.find_all('div', class_='article_teaser_body')[0].text
 
     # Mars Image to be scraped
     jpl_nasa_url = 'https://www.jpl.nasa.gov'
-    images_url = 'https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars'    
-    html = browser.html
-    images_soup = BeautifulSoup(html, 'html.parser')
+    images_url = 'https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars'
     browser.visit(images_url)
     html = browser.html
     images_soup = BeautifulSoup(html, 'html.parser')
     # Retrieve featured image link
     relative_image_path = images_soup.find_all('img')[3]["src"]
     featured_image_url = jpl_nasa_url + relative_image_path
-
 
     # Mars facts to be scraped, converted into html table
     facts_url = 'https://space-facts.com/mars/'
